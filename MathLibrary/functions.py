@@ -32,4 +32,16 @@ def one_group_t_test(data_set, h_mean):
 
     return t_value
 
+#Perform chi square goodness of fit test
+def chi_square_gof(observed, expected):
+
+    result = 0.0
+
+    for i in range(0, len(observed) - 1):
+         temp = (observed - expected) ** 2
+         temp = temp/expected
+         result = result + temp
+
+    #Result is the test statistic of the Chi-Square test
+    return result
         
