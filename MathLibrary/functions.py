@@ -139,3 +139,50 @@ def kruskal_wallis(groups):
     h_stat = (q1 * q2) - (3 * (total_entries + 1))
 
     return h_stat
+
+#=================================== Miscellaneous Algorithms ================================================
+
+#Finds the nth prime factor of x
+def nth_prime(x:int, n:int):
+    #Index starts at two because it is the first prime number
+    index = 2
+    factors = []
+    test = x
+
+    #Loop through all integers from 2 until the midway point of factorization.
+    while index <= math.ceil(test ** .5):
+
+        #Divide by index as many times as possible. Add factor to list of factors
+        while x % index == 0:
+            x = x / index
+            factors.append(index)
+
+        index = index + 1
+
+    #Check if nth factor exists
+    if len(factors) >= n:
+        return factors[n - 1]
+    else:
+        return -1
+
+#Finds all divosors of a natural number 
+def get_divisors(n:int):
+    divisors = []
+
+    #Go through integers up to the multiplicative midpoint, which is the square root. Add divisors in pairs
+    for i in range(1, math.ceil(n ** .5) + 1):
+        if(n % i == 0):
+            divisors.append(i)
+
+            #Add paired divisor if it is not the square root
+            if not (n / i == i):
+                divisors.append((int)(n/i))
+
+    return divisors
+
+#Check if two numbers are an amicable pair
+def is_amicable_pair(num1, num2):
+    if(sum(get_divisors(num1)) == sum(get_divisors(num2))):
+        return True
+    else:
+        return False

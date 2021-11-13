@@ -30,8 +30,34 @@ def csgof_test():
     expected = [200, 200, 200, 200, 200]
     print(functions.chi_square_gof(observed, expected))
 
+#nth prime test
+def nth_prime_test():
+    x = random.randrange(0, 1000000)
+    n = random.randrange(1, 10)
+    print("x: " + str(x))
+    print("n: " + str(n))
+    print(functions.nth_prime(x,n))
+
+#Get divisors test
+def get_divisors_test():
+    n = random.randrange(1,1000)
+    print("n:" + str(n))
+    print(functions.get_divisors(n))
+
+#Is amicable pair test
+def a_pair_test():
+    x = 220
+    y = 284
+    assert(functions.is_amicable_pair(x,y) == True), "Amicable Pair test failed!"
+    x = 15
+    y = 100
+    assert(functions.is_amicable_pair(x,y) == False), "Amicable Pair test failed!"
+    print("Amicable Pair test succeeded!")
+
 
 #ogtt_test()
 #kw_test()
 #csgof_test()
-    
+#nth_prime_test()
+#get_divisors_test()
+#a_pair_test()
