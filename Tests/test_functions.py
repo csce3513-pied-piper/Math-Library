@@ -54,6 +54,13 @@ def a_pair_test():
     assert(functions.is_amicable_pair(x,y) == False), "Amicable Pair test failed!"
     print("Amicable Pair test succeeded!")
 
+#Is sphenic number test
+def sphenic_test():
+    x = 105
+    assert(functions.is_sphenic_number(x) == True), "Sphenic number test failed!"
+    x = 12
+    assert(functions.is_sphenic_number(x) == False), "Sphenic number test failed!"
+
 
 #ogtt_test()
 #kw_test()
@@ -61,3 +68,4 @@ def a_pair_test():
 #nth_prime_test()
 #get_divisors_test()
 #a_pair_test()
+#sphenic_test()

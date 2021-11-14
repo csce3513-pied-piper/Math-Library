@@ -180,9 +180,24 @@ def get_divisors(n:int):
 
     return divisors
 
-#Check if two numbers are an amicable pair
+#Check if two numbers are an amicable pair.
 def is_amicable_pair(num1, num2):
     if(sum(get_divisors(num1)) == sum(get_divisors(num2))):
         return True
+    else:
+        return False
+
+#Check if a number is a sphenic number
+def is_sphenic_number(x):
+
+    #All sphenic numbers have 8 divisors
+    divisors = get_divisors(x)
+    divisors.sort()
+    if (len(divisors) == 8):
+        #The second, third, and fourth divisors must all be prime.
+        if (len(get_divisors(divisors[1]))) == 2 and (len(get_divisors(divisors[2]))) == 2 and (len(get_divisors(divisors[3]))) == 2:
+            return True
+        else:
+            return False
     else:
         return False
