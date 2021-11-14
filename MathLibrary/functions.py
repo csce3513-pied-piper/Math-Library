@@ -170,7 +170,7 @@ def get_divisors(n:int):
     divisors = []
 
     #Go through integers up to the multiplicative midpoint, which is the square root. Add divisors in pairs
-    for i in range(1, math.ceil(n ** .5) + 1):
+    for i in range(1, (int) (n ** .5 + 1)):
         if(n % i == 0):
             divisors.append(i)
 
@@ -179,6 +179,12 @@ def get_divisors(n:int):
                 divisors.append((int)(n/i))
 
     return divisors
+
+#Check if number is prime. If it has exactly two divisors, return true
+def is_prime(x):
+    if(len(get_divisors(x)) == 2):
+        return True
+    return False
 
 #Check if two numbers are an amicable pair.
 def is_amicable_pair(num1, num2):
@@ -195,9 +201,45 @@ def is_sphenic_number(x):
     divisors.sort()
     if (len(divisors) == 8):
         #The second, third, and fourth divisors must all be prime.
-        if (len(get_divisors(divisors[1]))) == 2 and (len(get_divisors(divisors[2]))) == 2 and (len(get_divisors(divisors[3]))) == 2:
+        if is_prime(divisors[1]) and is_prime(divisors[2]) and is_prime(divisors[3]):
             return True
         else:
             return False
     else:
         return False
+
+#Find the sum of digits of a number
+def sum_digits(x):
+    sum = 0
+    while x > 0:
+        sum = sum + (x % 10)
+        x = (int) (x / 10)
+
+    return sum
+
+#Check if a number is a hoax number
+def is_hoax_number(x):
+    #Hoax numbers must be composite numbers
+    if(is_prime(x) or x <= 0):
+        return False
+
+    #Find unique prime factors of x
+    all_factors = get_divisors(x)
+    prime_factors = []
+
+    for factor in all_factors:
+        if(is_prime(factor)):
+            prime_factors.append(factor)
+
+    #Get sum of digits of prime factors
+    pdigits_sum = 0
+    for prime in prime_factors:
+        pdigits_sum = pdigits_sum + sum_digits(prime)
+
+    #Get sum of digits of x
+    xdigits_sum = sum_digits(x)
+
+    if(xdigits_sum == pdigits_sum):
+        return True
+    return False
+

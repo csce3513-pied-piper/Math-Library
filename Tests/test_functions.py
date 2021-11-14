@@ -60,6 +60,15 @@ def sphenic_test():
     assert(functions.is_sphenic_number(x) == True), "Sphenic number test failed!"
     x = 12
     assert(functions.is_sphenic_number(x) == False), "Sphenic number test failed!"
+    print("Sphenic number test succeeded!")
+
+#Is hoax number test
+def hoax_test():
+    x = 12955
+    assert(functions.is_hoax_number(x) == True), "Hoax number test failed!"
+    x = 7
+    assert(functions.is_hoax_number(x) == False), "Hoax number test failed!"
+    print("Hoax number test succeeded!")
 
 
 #ogtt_test()
@@ -69,3 +78,4 @@ def sphenic_test():
 #get_divisors_test()
 #a_pair_test()
 #sphenic_test()
+#hoax_test()
