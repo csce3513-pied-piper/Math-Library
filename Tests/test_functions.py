@@ -70,6 +70,21 @@ def hoax_test():
     assert(functions.is_hoax_number(x) == False), "Hoax number test failed!"
     print("Hoax number test succeeded!")
 
+#Modular inverse test
+def mod_inverse_test():
+    n = random.randrange(0, 1000)
+    m = random.randrange(1, 10000)
+    print("n: " + str(n))
+    print("m: " + str(m))
+    print(functions.mod_inverse(n,m))
+
+#Multiplicative order test
+def mult_order_test():
+    n = random.randrange(0, 1000)
+    m = random.randrange(1, 10000)
+    print("n: " + str(n))
+    print("m: " + str(m))
+    print(functions.mult_order(n,m))
 
 #ogtt_test()
 #kw_test()
@@ -79,3 +94,5 @@ def hoax_test():
 #a_pair_test()
 #sphenic_test()
 #hoax_test()
+#mod_inverse_test()
+#mult_order_test()

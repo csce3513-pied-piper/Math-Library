@@ -243,3 +243,41 @@ def is_hoax_number(x):
         return True
     return False
 
+#Calculate modular inverse
+def mod_inverse(n, m):
+    #Check that n and m are positive integers
+    if not (n > 0 and m > 0):
+        print("n and m must be positive integers")
+        return -1
+
+    for i in range(0, m-1):
+        if((n * i) % m) == 1:
+            return i
+    return -1
+
+#Check if two numbers a coprime
+def is_coprime(n, m):
+    if (math.gcd(n,m) == 1):
+        return True
+    return False
+
+#Caclulate multiplicative order
+def mult_order(n, m):
+    #If n and m are not coprime, there is no multiplicative order
+    if not is_coprime(n,m):
+        return -1
+
+    #m and n must be positive
+    if m <= 0 or n <= 0:
+        return -1
+
+    #Use modular arithmetic to find i where n^i % m equals 1
+    result = 1
+    for i in range(1, m):
+        result = (n * result) % m
+        if(result == 1):
+            return i
+
+    return -1
+
+
