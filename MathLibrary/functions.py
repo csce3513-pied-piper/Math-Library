@@ -142,22 +142,37 @@ def kruskal_wallis(groups):
 
 #=================================== Miscellaneous Algorithms ================================================
 
-#Finds the nth prime factor of x
-def nth_prime(x:int, n:int):
+#Finds prime factorization of a number
+def prime_factorization(x):
+    if x <= 0:
+        print("X must be a positive integer!")
+        return
+
     #Index starts at two because it is the first prime number
     index = 2
     factors = []
     test = x
 
     #Loop through all integers from 2 until the midway point of factorization.
-    while index <= math.ceil(test ** .5):
+    while index <= (int)(test ** .5):
 
         #Divide by index as many times as possible. Add factor to list of factors
         while x % index == 0:
-            x = x / index
+            x = (int) (x / index)
             factors.append(index)
 
         index = index + 1
+
+    #Check if remaining x is prime
+    if x > 2:
+        factors.append(x)
+
+    return factors
+
+#Finds the nth prime factor of x
+def nth_prime(x:int, n:int):
+    #Get the prime factorization
+    factors = prime_factorization(x)
 
     #Check if nth factor exists
     if len(factors) >= n:
@@ -279,5 +294,25 @@ def mult_order(n, m):
             return i
 
     return -1
+
+#Determines if a number is a smith number
+def is_smith_number(x):
+    #Check if smith number is positive and composite
+    if(x <= 0) or is_prime(x):
+        print("x must be a positive, composite integer!")
+        return False
+
+    #Get sum of digits of x and of x's prime factorization. If they are equal, return true.
+    x_digits = sum_digits(x)
+    prime_factors = prime_factorization(x)
+    prime_digits = 0
+
+    for factor in prime_factors:
+        prime_digits = prime_digits + sum_digits(factor)
+
+    if(prime_digits == x_digits):
+        return True
+    return False
+
 
 

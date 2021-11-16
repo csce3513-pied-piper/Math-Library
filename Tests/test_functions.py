@@ -30,6 +30,12 @@ def csgof_test():
     expected = [200, 200, 200, 200, 200]
     print(functions.chi_square_gof(observed, expected))
 
+#Prime factorization test
+def prime_factor_test():
+    x = random.randrange(0, 1000000)
+    print("x: " + str(x))
+    print(functions.prime_factorization(x))
+
 #nth prime test
 def nth_prime_test():
     x = random.randrange(0, 1000000)
@@ -86,9 +92,19 @@ def mult_order_test():
     print("m: " + str(m))
     print(functions.mult_order(n,m))
 
+#Is Smith number test
+def smith_test():
+    x = 666
+    assert(functions.is_smith_number(x) == True), "Smith number test failed!"
+    x = 13
+    assert(functions.is_smith_number(x) == False), "Smith number test failed!"
+    print("Smith number test succeeded!")
+    
+
 #ogtt_test()
 #kw_test()
 #csgof_test()
+#prime_factor_test()
 #nth_prime_test()
 #get_divisors_test()
 #a_pair_test()
@@ -96,3 +112,4 @@ def mult_order_test():
 #hoax_test()
 #mod_inverse_test()
 #mult_order_test()
+#smith_test()
