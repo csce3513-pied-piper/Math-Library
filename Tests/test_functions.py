@@ -99,6 +99,14 @@ def smith_test():
     x = 13
     assert(functions.is_smith_number(x) == False), "Smith number test failed!"
     print("Smith number test succeeded!")
+
+#Is Mersenne Prime test
+def mersenne_test():
+    x = 2147483647
+    assert(functions.is_mersenne_prime(x) == True), "Mersenne Prime test failed!"
+    x = 11
+    assert(functions.is_mersenne_prime(x) == False), "Mersenne Prime test failed!"
+    print("Mersenne test succeeded!")
     
 
 #ogtt_test()
@@ -113,3 +121,4 @@ def smith_test():
 #mod_inverse_test()
 #mult_order_test()
 #smith_test()
+#mersenne_test()

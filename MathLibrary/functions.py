@@ -314,5 +314,16 @@ def is_smith_number(x):
         return True
     return False
 
+#Determines if a number is a Mersenne Prime
+def is_mersenne_prime(x):
+    #First, check that x is prime
+    if(is_prime(x)):
+        #Now, check if x is of the form 2^k - 1, where k is an integer >= 2.
+        k = math.log((x + 1), 2)
+        k = round(k, 10)
+        if(k.is_integer() and k >= 2):
+            return True
+
+    return False
 
 
