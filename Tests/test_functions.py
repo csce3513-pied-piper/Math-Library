@@ -106,7 +106,21 @@ def mersenne_test():
     assert(functions.is_mersenne_prime(x) == True), "Mersenne Prime test failed!"
     x = 11
     assert(functions.is_mersenne_prime(x) == False), "Mersenne Prime test failed!"
-    print("Mersenne test succeeded!")
+    print("Mersenne prime test succeeded!")
+
+#Is circular prime test
+def circular_test():
+    x = 197
+    assert(functions.is_circular_prime(x) == True), "Circular Prime test failed!"
+    x = 23
+    assert(functions.is_circular_prime(x) == False), "Circular Prime test failed!"
+    print("Circular Prime test succeeded!")
+
+#Juggler sequence test
+def juggler_test():
+    n = random.randrange(0, 1000)
+    print("n: " + str(n))
+    print(functions.juggler_sequence(n))
     
 
 #ogtt_test()
@@ -122,3 +136,5 @@ def mersenne_test():
 #mult_order_test()
 #smith_test()
 #mersenne_test()
+#circular_test()
+#juggler_test()

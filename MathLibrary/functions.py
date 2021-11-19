@@ -326,4 +326,53 @@ def is_mersenne_prime(x):
 
     return False
 
+#Counts number of digits in an integer
+def digit_count(x):
+    count = 0
+    while x != 0:
+        x = x // 10
+        count = count + 1
+    return count
 
+#Determines if a number is a circular prime
+def is_circular_prime(x):
+    #Check if x is a positive, prime integer
+    if not (x > 0 and is_prime(x)):
+        print("x must be a positive, prime integer!")
+        return False
+    else:
+        #Cycle through digits and check if resulting number is prime.
+        numDigits = digit_count(x)
+        for i in range(1, numDigits):
+            #Get value of last digit
+            last_digit = x % 10
+
+            #Update x
+            x = x // 10
+            x = x + (last_digit * (10 ** (numDigits - 1)))
+
+            #Check if new x is prime
+            if not is_prime(x):
+                return False
+
+    return True
+
+#Finds juggler sequence starting with n
+def juggler_sequence(n:int):
+    #Check if n is a positive integer
+    if(n <= 0):
+        print("n must be positive!")
+        return
+
+    #Loop until n is 1. Update n based on the juggler sequence formula.
+    sequence = [n]
+    while not n == 1:
+        if(n % 2 == 0):
+            n = (int) (n ** .5)
+            sequence.append(n)
+        else:
+            n = (int) (n ** 1.5)
+            sequence.append(n)
+
+    return sequence
+    
