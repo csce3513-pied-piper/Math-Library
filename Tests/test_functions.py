@@ -121,6 +121,42 @@ def juggler_test():
     n = random.randrange(0, 1000)
     print("n: " + str(n))
     print(functions.juggler_sequence(n))
+
+#Power set test
+def power_set_test():
+    test_list = ["a", "b", "c"]
+    print(functions.get_power_set(test_list))
+
+#Max subset gcd test
+def max_sub_test():
+    test_list = [12, 15, 2]
+    print(functions.max_sub_gcd(test_list))
+
+#Padovan sequence test
+def padovan_test():
+    x = random.randrange(0, 50)
+    print("x: " + str(x))
+    print(functions.padovan(x))
+
+#Aliquot sequence test
+def aliquot_test():
+    x = random.randrange(0, 50)
+    print("x: " + str(x))
+    print(functions.aliquot(x))
+
+#Is abundant number test
+def is_abundant_test():
+    x = 18
+    assert(functions.is_abundant(x) == True), "Abundant number test failed!"
+    x = 23
+    assert(functions.is_abundant(x) == False), "Abundant number test failed!"
+    print("Abundant number test succeeded!")
+
+#Get abundance test
+def abundance_test():
+    x = random.randrange(0, 50)
+    print("x: " + str(x))
+    print(functions.get_abundance(x))
     
 
 #ogtt_test()
@@ -138,3 +174,9 @@ def juggler_test():
 #mersenne_test()
 #circular_test()
 #juggler_test()
+#power_set_test()
+#max_sub_test()
+#padovan_test()
+#aliquot_test()
+is_abundant_test()
+#abundance_test()

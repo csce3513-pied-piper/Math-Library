@@ -1,5 +1,7 @@
 import csv
 import math
+from fractions import gcd
+from functools import reduce
 
 def csv_reader():
     f_name = input("Enter the file name: ")
@@ -183,6 +185,9 @@ def nth_prime(x:int, n:int):
 #Finds all divosors of a natural number 
 def get_divisors(n:int):
     divisors = []
+
+    if n == 0:
+        return [-1]
 
     #Go through integers up to the multiplicative midpoint, which is the square root. Add divisors in pairs
     for i in range(1, (int) (n ** .5 + 1)):
@@ -375,4 +380,110 @@ def juggler_sequence(n:int):
             sequence.append(n)
 
     return sequence
+
+#Returns the power set of a list
+def get_power_set(set):
+    #Get number of subsets in power set
+    set_size = len(set)
+    pset_size = math.floor(math.pow(2, set_size))
+    pset = []
+
+    #Loop through original a number of times equal to the size of the power set.
+    #If the binary representation of the size of the power set is 1, include the corresponding
+    #element of the original set in the current subset being constructed.
+    for i in range(0, pset_size):
+        subset = []
+        for j in range(0, set_size):
+            if((i & (1<<j)) > 0):
+                subset.append(set[j])
+        pset.append(subset)
+    return pset
+
+#Find gcd of a list of integers
+def get_gcd(list):
+    if len(list) == 0:
+        return 0
+    return reduce(gcd, list)
+
+#Finds largest subset where GCD of all elements > 1
+def max_sub_gcd(set):
+    #Loop through subsets and find largest where gcd > 1.
+    goal_set = []
+    subsets = get_power_set(set)
+    for subset in subsets:
+        if (get_gcd(subset) > 1) and (len(subset) > len(goal_set)):
+            goal_set = subset
+    return goal_set
+
+#Finds nth number in padovan sequence
+def padovan(n: int):
+    if(n < 0):
+        print("n cannot be negative")
+        return
+    
+    #Set initial values
+    two_previous = 1
+    previous = 1
+    current = 1
+    next = 1
+
+    #update values until nth number is reached
+    i = 3
+    while i < n+1:
+        i = i + 1
+        next = two_previous + previous
+        two_previous = previous
+        previous = current
+        current = next
+
+    return next
+
+#Returns Aliquot sequence that begins with n. If the end repeats infinitely, the list will end with a single instance of the element.
+def aliquot(n: int):
+    sequence = []
+
+    if(n < 0):
+        print("n must be a positive integer!")
+        return
+
+    #Loop until 0 is reached or sequence starts to repeat
+    while n >= 0:
+        if(n in sequence):
+            return sequence
+        if(n == 0):
+            sequence.append(n)
+            return sequence
+        sequence.append(n)
+        pDivisors = get_divisors(n)
+        pDivisors[pDivisors.index(n)] = 0
+        n = sum(pDivisors)
+
+    return sequence
+
+#Checks if a number is an abundant number
+def is_abundant(n: int):
+    #Check if abundance of n is greater than 0
+    if(get_abundance(n) > 0):
+        return True
+    return False
+
+#Finds abundance of a number
+def get_abundance(n: int):
+    if n <= 0:
+        print("n must be a positive integer!")
+        return -1
+    if n == 1:
+        return 0
+   
+    #Find difference between n and sum of n's proper divisors
+    pdivisors = get_divisors(n)
+    pdivisors.remove(n)
+    div_sum = sum(pdivisors)
+    if (div_sum - n) > 0:
+        return div_sum - n
+    print(str(n) + " is not abundant.")
+    return -1
+
+
+
     
