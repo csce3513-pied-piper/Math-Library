@@ -157,6 +157,40 @@ def abundance_test():
     x = random.randrange(0, 50)
     print("x: " + str(x))
     print(functions.get_abundance(x))
+
+#Is lucky test
+def is_lucky_test():
+    n = 18
+    assert(functions.is_lucky(n) == True), "Lucky number test failed!"
+    n = 22
+    assert(functions.is_lucky(n) == False), "Lucky number test failed!"
+    print("Lucky number test succeeded!")
+
+#Is arithmetic test
+def is_arithmetic_test():
+    n = 1
+    assert(functions.is_arithmetic(n) == True), "Arithmetic number test failed!"
+    n = 2
+    assert(functions.is_arithmetic(n) == False), "Arithmetic number test failed!"
+    print("Arithmetic number test succeeded!")
+
+#Is friendly pair test
+def friendly_pair_test():
+    n = 6
+    m = 28
+    assert(functions.is_friendly_pair(n, m) == True), "Friendly pair test failed!"
+    n = 18
+    m = 26
+    assert(functions.is_friendly_pair(n, m) == False), "Friendly pair test failed!"
+    print("Friendly pair test succeeded!")
+
+#Is perfect number test
+def perfect_number_test():
+    n = 8128
+    assert(functions.is_perfect_number(n) == True), "Perfect number test failed!"
+    n = 54
+    assert(functions.is_perfect_number(n) == False), "Perfect number test failed!"
+    print("Perfect number test succeeded!")
     
 
 #ogtt_test()
@@ -178,5 +212,9 @@ def abundance_test():
 #max_sub_test()
 #padovan_test()
 #aliquot_test()
-is_abundant_test()
+#is_abundant_test()
 #abundance_test()
+#is_lucky_test()
+#is_arithmetic_test()
+#friendly_pair_test()
+#perfect_number_test()

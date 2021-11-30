@@ -484,6 +484,60 @@ def get_abundance(n: int):
     print(str(n) + " is not abundant.")
     return -1
 
+#Checks if a number is a lucky number
+def is_lucky(n):
+    #Hold digits in dictionary
+    unique_digits = {}
 
+    #Get last digit in n, until n is 0. If digit appears twice, number is not lucky.
+    while n > 0:
+        digit = n % 10
 
-    
+        if(digit in unique_digits):
+            return False
+        else:
+            unique_digits[digit] = True
+        n = n // 10
+
+    return True
+
+#Checks if a number is an arithmetic number 
+def is_arithmetic(n:int):
+    #Check that n is positive
+    if n <= 0:
+        return False
+
+    #Find divisors of n and see if average is an integer
+    divisors = get_divisors(n)
+    div_total = sum(divisors)
+    div_len = len(divisors)
+
+    if(div_total % div_len == 0):
+        return True
+    return False
+
+#Returns the abundancy index of a number
+def get_abundancy_index(n: int):
+    if n <= 0:
+        print("n must be a positive integer!")
+        return -1
+    if n == 1:
+        return 1
+
+    #Calculate abundancy index
+    sum_divisors = sum(get_divisors(n))
+    return sum_divisors / n
+
+#Checks if two numbers are a friendly pair
+def is_friendly_pair(n: int, m: int):
+    #Both numbers must be positive integers with the same abundancy index.
+    if not (n <= 0) and not (m <= 0) and get_abundancy_index(n) == get_abundancy_index(m):
+        return True
+    return False
+
+#Checks if a number is a perfect number
+def is_perfect_number(n: int):
+    #Is perfect if abundancy index is 2
+    if get_abundancy_index(n) == 2:
+        return True
+    return False
