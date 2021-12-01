@@ -191,7 +191,22 @@ def perfect_number_test():
     n = 54
     assert(functions.is_perfect_number(n) == False), "Perfect number test failed!"
     print("Perfect number test succeeded!")
+
+#Is Sophie Germain prime test
+def sg_prime_test():
+    n = 509
+    assert(functions.is_sg_prime(n) == True), "Sophie Germain prime test failed!"
+    n = 54
+    assert(functions.is_sg_prime(n) == False), "Sophie Germain prime test failed!"
+    print("Sophie Germain prime test succeeded!")
     
+#Is twisted prime test
+def twisted_prime_test():
+    n = 17
+    assert(functions.is_twisted_prime(n) == True), "Twisted prime test failed!"
+    n = 19
+    assert(functions.is_twisted_prime(n) == False), "Twisted prime test failed!"
+    print("Twisted prime test succeeded!")
 
 #ogtt_test()
 #kw_test()
@@ -218,3 +233,5 @@ def perfect_number_test():
 #is_arithmetic_test()
 #friendly_pair_test()
 #perfect_number_test()
+#sg_prime_test()
+twisted_prime_test()

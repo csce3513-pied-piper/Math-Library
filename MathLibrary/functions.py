@@ -541,3 +541,30 @@ def is_perfect_number(n: int):
     if get_abundancy_index(n) == 2:
         return True
     return False
+
+#Checks if a number is a Sophie Germain prime
+def is_sg_prime(n: int):
+    #n and 2n + 1 must both be prime
+    if not (is_prime(n)):
+        return False
+    if not (is_prime(2*n+1)):
+        return False
+    return True
+
+#Checks if a number is a twisted prime
+def is_twisted_prime(n:int):
+    #Number and its reverse must be prime
+    if not is_prime(n):
+        return False
+
+    #Get reverse of number
+    reversed = 0
+    while n > 0:
+        dig = n % 10
+        n = n // 10
+        reversed = reversed * 10 + dig
+
+    if not is_prime(reversed):
+        return False
+    return True
+
