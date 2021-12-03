@@ -201,7 +201,9 @@ def get_divisors(n:int):
     return divisors
 
 #Check if number is prime. If it has exactly two divisors, return true
-def is_prime(x):
+def is_prime(x:int):
+    if x <= 0:
+        return False
     if(len(get_divisors(x)) == 2):
         return True
     return False
