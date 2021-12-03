@@ -570,3 +570,11 @@ def is_twisted_prime(n:int):
         return False
     return True
 
+#Gets discriminant of quadratic polynomial
+def quad_discriminant(a,b,c):
+    return (b ** 2) - (4 * a * c)
+
+#Gets discriminant of cubic polynomial
+def cubic_discriminant(a,b,c,d):
+    return (18 * a * b * c * d) - ((b ** 3) * 4 * d) + ((b ** 2) * (c ** 2)) - (4 * a * (c ** 3)) - (27 * (a ** 2) * (d ** 2))
+
