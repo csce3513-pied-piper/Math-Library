@@ -144,126 +144,6 @@ def kruskal_wallis(groups):
 
 #=================================== Miscellaneous Algorithms ================================================
 
-#Finds prime factorization of a number
-def prime_factorization(x):
-    if x <= 0:
-        print("X must be a positive integer!")
-        return
-
-    #Index starts at two because it is the first prime number
-    index = 2
-    factors = []
-    test = x
-
-    #Loop through all integers from 2 until the midway point of factorization.
-    while index <= (int)(test ** .5):
-
-        #Divide by index as many times as possible. Add factor to list of factors
-        while x % index == 0:
-            x = (int) (x / index)
-            factors.append(index)
-
-        index = index + 1
-
-    #Check if remaining x is prime
-    if x > 2:
-        factors.append(x)
-
-    return factors
-
-#Finds the nth prime factor of x
-def nth_prime(x:int, n:int):
-    #Get the prime factorization
-    factors = prime_factorization(x)
-
-    #Check if nth factor exists
-    if len(factors) >= n:
-        return factors[n - 1]
-    else:
-        return -1
-
-#Finds all divosors of a natural number 
-def get_divisors(n:int):
-    divisors = []
-
-    if n == 0:
-        return [-1]
-
-    #Go through integers up to the multiplicative midpoint, which is the square root. Add divisors in pairs
-    for i in range(1, (int) (n ** .5 + 1)):
-        if(n % i == 0):
-            divisors.append(i)
-
-            #Add paired divisor if it is not the square root
-            if not (n / i == i):
-                divisors.append((int)(n/i))
-
-    return divisors
-
-#Check if number is prime. If it has exactly two divisors, return true
-def is_prime(x:int):
-    if x <= 0:
-        return False
-    if(len(get_divisors(x)) == 2):
-        return True
-    return False
-
-#Check if two numbers are an amicable pair.
-def is_amicable_pair(num1, num2):
-    if(sum(get_divisors(num1)) == sum(get_divisors(num2))):
-        return True
-    else:
-        return False
-
-#Check if a number is a sphenic number
-def is_sphenic_number(x):
-
-    #All sphenic numbers have 8 divisors
-    divisors = get_divisors(x)
-    divisors.sort()
-    if (len(divisors) == 8):
-        #The second, third, and fourth divisors must all be prime.
-        if is_prime(divisors[1]) and is_prime(divisors[2]) and is_prime(divisors[3]):
-            return True
-        else:
-            return False
-    else:
-        return False
-
-#Find the sum of digits of a number
-def sum_digits(x):
-    sum = 0
-    while x > 0:
-        sum = sum + (x % 10)
-        x = (int) (x / 10)
-
-    return sum
-
-#Check if a number is a hoax number
-def is_hoax_number(x):
-    #Hoax numbers must be composite numbers
-    if(is_prime(x) or x <= 0):
-        return False
-
-    #Find unique prime factors of x
-    all_factors = get_divisors(x)
-    prime_factors = []
-
-    for factor in all_factors:
-        if(is_prime(factor)):
-            prime_factors.append(factor)
-
-    #Get sum of digits of prime factors
-    pdigits_sum = 0
-    for prime in prime_factors:
-        pdigits_sum = pdigits_sum + sum_digits(prime)
-
-    #Get sum of digits of x
-    xdigits_sum = sum_digits(x)
-
-    if(xdigits_sum == pdigits_sum):
-        return True
-    return False
 
 #Calculate modular inverse
 def mod_inverse(n, m):
@@ -277,92 +157,6 @@ def mod_inverse(n, m):
             return i
     return -1
 
-#Check if two numbers a coprime
-def is_coprime(n, m):
-    if (math.gcd(n,m) == 1):
-        return True
-    return False
-
-#Caclulate multiplicative order
-def mult_order(n, m):
-    #If n and m are not coprime, there is no multiplicative order
-    if not is_coprime(n,m):
-        return -1
-
-    #m and n must be positive
-    if m <= 0 or n <= 0:
-        return -1
-
-    #Use modular arithmetic to find i where n^i % m equals 1
-    result = 1
-    for i in range(1, m):
-        result = (n * result) % m
-        if(result == 1):
-            return i
-
-    return -1
-
-#Determines if a number is a smith number
-def is_smith_number(x):
-    #Check if smith number is positive and composite
-    if(x <= 0) or is_prime(x):
-        print("x must be a positive, composite integer!")
-        return False
-
-    #Get sum of digits of x and of x's prime factorization. If they are equal, return true.
-    x_digits = sum_digits(x)
-    prime_factors = prime_factorization(x)
-    prime_digits = 0
-
-    for factor in prime_factors:
-        prime_digits = prime_digits + sum_digits(factor)
-
-    if(prime_digits == x_digits):
-        return True
-    return False
-
-#Determines if a number is a Mersenne Prime
-def is_mersenne_prime(x):
-    #First, check that x is prime
-    if(is_prime(x)):
-        #Now, check if x is of the form 2^k - 1, where k is an integer >= 2.
-        k = math.log((x + 1), 2)
-        k = round(k, 10)
-        if(k.is_integer() and k >= 2):
-            return True
-
-    return False
-
-#Counts number of digits in an integer
-def digit_count(x):
-    count = 0
-    while x != 0:
-        x = x // 10
-        count = count + 1
-    return count
-
-#Determines if a number is a circular prime
-def is_circular_prime(x):
-    #Check if x is a positive, prime integer
-    if not (x > 0 and is_prime(x)):
-        print("x must be a positive, prime integer!")
-        return False
-    else:
-        #Cycle through digits and check if resulting number is prime.
-        numDigits = digit_count(x)
-        for i in range(1, numDigits):
-            #Get value of last digit
-            last_digit = x % 10
-
-            #Update x
-            x = x // 10
-            x = x + (last_digit * (10 ** (numDigits - 1)))
-
-            #Check if new x is prime
-            if not is_prime(x):
-                return False
-
-    return True
 
 #Finds juggler sequence starting with n
 def juggler_sequence(n:int):
@@ -401,21 +195,6 @@ def get_power_set(set):
         pset.append(subset)
     return pset
 
-#Find gcd of a list of integers
-def get_gcd(list):
-    if len(list) == 0:
-        return 0
-    return reduce(gcd, list)
-
-#Finds largest subset where GCD of all elements > 1
-def max_sub_gcd(set):
-    #Loop through subsets and find largest where gcd > 1.
-    goal_set = []
-    subsets = get_power_set(set)
-    for subset in subsets:
-        if (get_gcd(subset) > 1) and (len(subset) > len(goal_set)):
-            goal_set = subset
-    return goal_set
 
 #Finds nth number in padovan sequence
 def padovan(n: int):
@@ -461,6 +240,19 @@ def aliquot(n: int):
         n = sum(pDivisors)
 
     return sequence
+
+
+
+#Gets discriminant of quadratic polynomial
+def quad_discriminant(a,b,c):
+    return (b ** 2) - (4 * a * c)
+
+#Gets discriminant of cubic polynomial
+def cubic_discriminant(a,b,c,d):
+    return (18 * a * b * c * d) - ((b ** 3) * 4 * d) + ((b ** 2) * (c ** 2)) - (4 * a * (c ** 3)) - (27 * (a ** 2) * (d ** 2))
+
+#=================================== Number Theory Algorithms ================================================
+
 
 #Checks if a number is an abundant number
 def is_abundant(n: int):
@@ -544,6 +336,147 @@ def is_perfect_number(n: int):
         return True
     return False
 
+#Find gcd of a list of integers
+def get_gcd(list):
+    if len(list) == 0:
+        return 0
+    return reduce(gcd, list)
+
+#Finds largest subset where GCD of all elements > 1
+def max_sub_gcd(set):
+    #Loop through subsets and find largest where gcd > 1.
+    goal_set = []
+    subsets = get_power_set(set)
+    for subset in subsets:
+        if (get_gcd(subset) > 1) and (len(subset) > len(goal_set)):
+            goal_set = subset
+    return goal_set
+
+#Counts number of digits in an integer
+def digit_count(x):
+    count = 0
+    while x != 0:
+        x = x // 10
+        count = count + 1
+    return count
+
+#Caclulate multiplicative order
+def mult_order(n, m):
+    #If n and m are not coprime, there is no multiplicative order
+    if not is_coprime(n,m):
+        return -1
+
+    #m and n must be positive
+    if m <= 0 or n <= 0:
+        return -1
+
+    #Use modular arithmetic to find i where n^i % m equals 1
+    result = 1
+    for i in range(1, m):
+        result = (n * result) % m
+        if(result == 1):
+            return i
+
+    return -1
+
+#Determines if a number is a smith number
+def is_smith_number(x):
+    #Check if smith number is positive and composite
+    if(x <= 0) or is_prime(x):
+        print("x must be a positive, composite integer!")
+        return False
+
+    #Get sum of digits of x and of x's prime factorization. If they are equal, return true.
+    x_digits = sum_digits(x)
+    prime_factors = prime_factorization(x)
+    prime_digits = 0
+
+    for factor in prime_factors:
+        prime_digits = prime_digits + sum_digits(factor)
+
+    if(prime_digits == x_digits):
+        return True
+    return False
+
+#Check if two numbers are an amicable pair.
+def is_amicable_pair(num1, num2):
+    if(sum(get_divisors(num1)) == sum(get_divisors(num2))):
+        return True
+    else:
+        return False
+
+#Check if a number is a sphenic number
+def is_sphenic_number(x):
+
+    #All sphenic numbers have 8 divisors
+    divisors = get_divisors(x)
+    divisors.sort()
+    if (len(divisors) == 8):
+        #The second, third, and fourth divisors must all be prime.
+        if is_prime(divisors[1]) and is_prime(divisors[2]) and is_prime(divisors[3]):
+            return True
+        else:
+            return False
+    else:
+        return False
+
+#Find the sum of digits of a number
+def sum_digits(x):
+    sum = 0
+    while x > 0:
+        sum = sum + (x % 10)
+        x = (int) (x / 10)
+
+    return sum
+
+#Check if a number is a hoax number
+def is_hoax_number(x):
+    #Hoax numbers must be composite numbers
+    if(is_prime(x) or x <= 0):
+        return False
+
+    #Find unique prime factors of x
+    all_factors = get_divisors(x)
+    prime_factors = []
+
+    for factor in all_factors:
+        if(is_prime(factor)):
+            prime_factors.append(factor)
+
+    #Get sum of digits of prime factors
+    pdigits_sum = 0
+    for prime in prime_factors:
+        pdigits_sum = pdigits_sum + sum_digits(prime)
+
+    #Get sum of digits of x
+    xdigits_sum = sum_digits(x)
+
+    if(xdigits_sum == pdigits_sum):
+        return True
+    return False
+
+#Finds all divosors of a natural number 
+def get_divisors(n:int):
+    divisors = []
+
+    if n == 0:
+        return [-1]
+
+    #Go through integers up to the multiplicative midpoint, which is the square root. Add divisors in pairs
+    for i in range(1, (int) (n ** .5 + 1)):
+        if(n % i == 0):
+            divisors.append(i)
+
+            #Add paired divisor if it is not the square root
+            if not (n / i == i):
+                divisors.append((int)(n/i))
+
+    return divisors
+
+
+#=================================== Primality Algorithms ================================================
+
+
 #Checks if a number is a Sophie Germain prime
 def is_sg_prime(n: int):
     #n and 2n + 1 must both be prime
@@ -570,11 +503,91 @@ def is_twisted_prime(n:int):
         return False
     return True
 
-#Gets discriminant of quadratic polynomial
-def quad_discriminant(a,b,c):
-    return (b ** 2) - (4 * a * c)
+#Check if two numbers a coprime
+def is_coprime(n, m):
+    if (math.gcd(n,m) == 1):
+        return True
+    return False
 
-#Gets discriminant of cubic polynomial
-def cubic_discriminant(a,b,c,d):
-    return (18 * a * b * c * d) - ((b ** 3) * 4 * d) + ((b ** 2) * (c ** 2)) - (4 * a * (c ** 3)) - (27 * (a ** 2) * (d ** 2))
 
+#Determines if a number is a Mersenne Prime
+def is_mersenne_prime(x):
+    #First, check that x is prime
+    if(is_prime(x)):
+        #Now, check if x is of the form 2^k - 1, where k is an integer >= 2.
+        k = math.log((x + 1), 2)
+        k = round(k, 10)
+        if(k.is_integer() and k >= 2):
+            return True
+
+    return False
+
+
+#Determines if a number is a circular prime
+def is_circular_prime(x):
+    #Check if x is a positive, prime integer
+    if not (x > 0 and is_prime(x)):
+        print("x must be a positive, prime integer!")
+        return False
+    else:
+        #Cycle through digits and check if resulting number is prime.
+        numDigits = digit_count(x)
+        for i in range(1, numDigits):
+            #Get value of last digit
+            last_digit = x % 10
+
+            #Update x
+            x = x // 10
+            x = x + (last_digit * (10 ** (numDigits - 1)))
+
+            #Check if new x is prime
+            if not is_prime(x):
+                return False
+
+    return True
+
+#Finds prime factorization of a number
+def prime_factorization(x):
+    if x <= 0:
+        print("X must be a positive integer!")
+        return
+
+    #Index starts at two because it is the first prime number
+    index = 2
+    factors = []
+    test = x
+
+    #Loop through all integers from 2 until the midway point of factorization.
+    while index <= (int)(test ** .5):
+
+        #Divide by index as many times as possible. Add factor to list of factors
+        while x % index == 0:
+            x = (int) (x / index)
+            factors.append(index)
+
+        index = index + 1
+
+    #Check if remaining x is prime
+    if x > 2:
+        factors.append(x)
+
+    return factors
+
+#Finds the nth prime factor of x
+def nth_prime(x:int, n:int):
+    #Get the prime factorization
+    factors = prime_factorization(x)
+
+    #Check if nth factor exists
+    if len(factors) >= n:
+        return factors[n - 1]
+    else:
+        return -1
+
+#Check if number is prime. If it has exactly two divisors, return true
+def is_prime(x:int):
+    if x <= 0:
+        return False
+    if(len(get_divisors(x)) == 2):
+        return True
+    return False
