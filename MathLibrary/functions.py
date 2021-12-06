@@ -253,6 +253,67 @@ def cubic_discriminant(a,b,c,d):
 
 #=================================== Number Theory Algorithms ================================================
 
+def is_betrothed(n: int, m: int):
+    if n <= 47 or m <= 47:
+        return False
+
+    #Find the sum of the proper divisors of n and m
+    n_divisors = get_divisors(n)
+    n_divisors.remove(n)
+    n_sum = sum(n_divisors)
+
+    m_divisors = get_divisors(m)
+    m_divisors.remove(m)
+    m_sum = sum(m_divisors)
+
+    #Make comparison
+    if (n+1 == m_sum) and (m+1 == n_sum):
+        return True
+    return False
+
+
+#Finds deficience of a number
+def get_deficiency(n: int):
+    if n <= 0:
+        print("n must be a positive integer!")
+        return -1
+    if n == 1:
+        return 1
+   
+    #Find difference between n and sum of n's proper divisors
+    pdivisors = get_divisors(n)
+    pdivisors.remove(n)
+    div_sum = sum(pdivisors)
+    if (n - div_sum) > 0:
+        return n - div_sum
+    print(str(n) + " is not deficient.")
+    return -1
+
+#Checks if a number is an abundant number
+def is_deficient(n: int):
+    #Check if abundance of n is greater than 0
+    if(get_deficiency(n) > 0):
+        return True
+    return False
+
+#Checks if a number is a powerful number
+def is_powerful(n: int):
+    if n <= 0:
+        return False
+    if is_prime(n):
+        return False
+
+    #Loop through prime divisors of n
+    divisors = get_divisors(n)
+    for divisor in divisors:
+        if is_prime(divisor):
+            #Check if divisor squared divides n. If it doesn't return false.
+            if  not (n % (divisor ** 2) == 0):
+                return False
+
+    return True
+
+
 #Checks if a number is a blum integer
 def is_blum_integer(n: int):
     if n <= 0:
@@ -326,6 +387,7 @@ def is_abundant(n: int):
     if(get_abundance(n) > 0):
         return True
     return False
+
 
 #Finds abundance of a number
 def get_abundance(n: int):

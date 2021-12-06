@@ -152,11 +152,11 @@ def is_abundant_test():
     assert(functions.is_abundant(x) == False), "Abundant number test failed!"
     print("Abundant number test succeeded!")
 
-#Get abundance test
-def abundance_test():
+#Get deficience test
+def deficience_test():
     x = random.randrange(0, 50)
     print("x: " + str(x))
-    print(functions.get_abundance(x))
+    print(functions.get_deficiency(x))
 
 #Is lucky test
 def is_lucky_test():
@@ -262,5 +262,36 @@ def superperfect_test():
     assert(functions.is_superperfect(n) == False), "Superperfect number test failed!"
     print("Superperfect number test succeeded!")
 
-superperfect_test()
+#Is powerful test
+def powerful_test():
+    n = 1
+    assert(functions.is_powerful(n) == True), "Powerful number test failed!"
+    n = 18
+    assert(functions.is_powerful(n) == False), "Powerful number test failed!"
+    print("Powerful number test succeeded!")
 
+#Is deficient number test
+def is_deficient_test():
+    x = 19
+    assert(functions.is_deficient(x) == True), "Deficient number test failed!"
+    x = 18
+    assert(functions.is_deficient(x) == False), "Deficient number test failed!"
+    print("Deficient number test succeeded!")
+
+#Get deficiency test
+def deficiency_test():
+    x = random.randrange(0, 50)
+    print("x: " + str(x))
+    print(functions.get_deficiency(x))
+
+#Is betrothed test
+def betrothed_test():
+    x = 6128
+    y = 5775
+    assert(functions.is_betrothed(x,y) == True), "Betrothed Pair test failed!"
+    x = 200
+    y = 100
+    assert(functions.is_betrothed(x,y) == False), "Betrothed Pair test failed!"
+    print("Betrothed Pair test succeeded!")
+
+betrothed_test()
