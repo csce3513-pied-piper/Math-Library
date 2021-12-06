@@ -229,3 +229,38 @@ def cubic_discriminant_test():
     print("c: " + str(c))
     print("d: " + str(d))
     print(functions.cubic_discriminant(a,b,c,d))
+
+#Is frugal number test
+def frugal_number_test():
+    n = 2048
+    assert(functions.is_frugal_number(n) == True), "Frugal number test failed!"
+    n = 54
+    assert(functions.is_frugal_number(n) == False), "Frugal number test failed!"
+    print("Frugal number test succeeded!")
+
+#Is semiprime number test
+def semiprime_test():
+    n = 2066
+    assert(functions.is_semiprime(n) == True), "Semiprime number test failed!"
+    n = 2
+    assert(functions.is_semiprime(n) == False), "Semiprime number test failed!"
+    print("Semiprime number test succeeded!")
+
+#Is Blum integer test
+def blum_test():
+    n = 21
+    assert(functions.is_blum_integer(n) == True), "Blum integer test failed!"
+    n = 4
+    assert(functions.is_blum_integer(n) == False), "Blum integer test failed!"
+    print("Blum integer test succeeded!")
+
+#Is superperfect test
+def superperfect_test():
+    n = 2
+    assert(functions.is_superperfect(n) == True), "Superperfect number test failed!"
+    n = 18
+    assert(functions.is_superperfect(n) == False), "Superperfect number test failed!"
+    print("Superperfect number test succeeded!")
+
+superperfect_test()
+

@@ -253,6 +253,72 @@ def cubic_discriminant(a,b,c,d):
 
 #=================================== Number Theory Algorithms ================================================
 
+#Checks if a number is a blum integer
+def is_blum_integer(n: int):
+    if n <= 0:
+        return False
+
+    #Check that n is semiprime with distinct factors
+    divisors = get_divisors(n)
+    divisors.sort()
+    if not (len(divisors) == 4):
+        return False
+
+    if (not (is_prime(divisors[1]))) or (not (is_prime(divisors[2]))):
+        return False
+
+    #Check that the two factors are of the form 4t + 3, where t is an integer
+    if ((divisors[1] - 3) % 4 == 0) and ((divisors[2] - 3) % 4 == 0):
+        return True
+    return False
+
+#Checks if a number is a superperfect number
+def is_superperfect(n: int):
+    if n <= 1:
+        return False
+
+    #Get the sum of the divisors of n
+    sum1 = sum(get_divisors(n))
+
+    #Then get the sum of the divisors of div_sum
+    sum2 = sum(get_divisors(sum1))
+
+    if(sum2 == n * 2):
+        return True
+    return False
+
+
+#Checks if a number is a frugal number
+def is_frugal_number(n: int):
+    #Check that number is greater than 0
+    if (n <= 0):
+        print("N must be a positive integer.")
+        return False
+
+    #Get number of digits in n
+    count = digit_count(n)
+
+    #Get prime factors of n
+    primes = prime_factorization(n)
+
+    #Convert primes into exponential form
+    exp_primes = {}
+    for prime in primes:
+        if not prime in exp_primes:
+            exp_primes[prime] = 1
+        else:
+            exp_primes[prime] = exp_primes[prime] + 1
+
+    #Count the number of digits in the exponential form of the prime factorization
+    factors_digit_count = 0
+    for prime in exp_primes.keys():
+        factors_digit_count = factors_digit_count + digit_count(prime)
+        if exp_primes[prime] > 1:
+            factors_digit_count = factors_digit_count + digit_count(exp_primes[prime])
+
+    if factors_digit_count < count:
+        return True
+    return False
 
 #Checks if a number is an abundant number
 def is_abundant(n: int):
@@ -591,3 +657,22 @@ def is_prime(x:int):
     if(len(get_divisors(x)) == 2):
         return True
     return False
+
+#Checks if a number is semi-prime.
+def is_semiprime(n:int):
+    if n <= 0:
+        return False
+    divisors = get_divisors(n)
+    divisors.sort()
+    if(len(divisors) == 4):
+        if is_prime(divisors[1]):
+            if is_prime(divisors[2]):
+                return True
+            return False
+        return False
+    if(len(divisors) == 3):
+        if is_prime(divisors[1]):
+            return True
+        return False
+    return False
+
