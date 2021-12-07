@@ -30,6 +30,18 @@ def csgof_test():
     expected = [200, 200, 200, 200, 200]
     print(functions.chi_square_gof(observed, expected))
 
+#Paired student t test test
+def paired_t_test_test():
+    data_set_1 = [3,3,3,12,15,16,17,19,23,24,32]
+    data_set_2 = [20,13,13,20,29,32,23,20,25,15,30]
+    functions.paired_t_test(data_set_1, data_set_2)
+
+#wilcoxon signed rank test test
+def wilcoxon_test():
+    data_set_1 = [7, 5, 6, 4, 12]
+    data_set_2 = [3, 6, 4, 2, 1]
+    functions.wilcoxon_rank_sum_test(data_set_1, data_set_2)
+
 #Prime factorization test
 def prime_factor_test():
     x = random.randrange(0, 1000000)

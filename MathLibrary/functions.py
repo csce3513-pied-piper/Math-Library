@@ -142,6 +142,69 @@ def kruskal_wallis(groups):
 
     return h_stat
 
+############################################################
+#                Paired Student t-test                     #
+############################################################
+def paired_t_test(data_set_1, data_set_2):
+    if(len(data_set_1) != len(data_set_2)):
+        print("Sample not paired")
+        return -1
+
+    n = len(data_set_1)
+    #calculate the difference
+    difference = []
+    diff_squared = []
+    sum_diff = 0
+    sum_diff_squared = 0
+    for i in range(n):
+        difference.append(data_set_1[i] - data_set_2[i])
+        diff_squared.append(difference[i] * difference[i])
+        sum_diff += difference[i]
+        sum_diff_squared += diff_squared[i]
+    print("sum_diff = " + (str)(sum_diff))
+    print("sum_diff_squared = " + (str)(sum_diff_squared))
+    t_score = (sum_diff / n) / (math.sqrt((sum_diff_squared - (sum_diff * sum_diff)/n) / ((n-1)*(n))))
+    print("t_score = " + (str)(t_score))
+    return t_score
+
+############################################################
+#              Wilcoxon rank sum test                      #
+############################################################
+def wilcoxon_rank_sum_test(data_set_1, data_set_2):
+    pooled_unsorted_data = [[0, 0]]
+    for num in data_set_1:
+        pooled_unsorted_data.append([num, 1])
+    for num in data_set_2:
+        pooled_unsorted_data.append([num, 2])
+    pooled_sorted_data = sorted(pooled_unsorted_data, key=lambda x:x[0])
+    pooled_sorted_data.pop(0)
+    rank = 1
+    for data in pooled_sorted_data:
+        data.append(rank)
+        rank += 1
+    for i in range(len(pooled_sorted_data) - 3):
+       if pooled_sorted_data[i][0] == pooled_sorted_data[i+1][0]:
+            mean = pooled_sorted_data[i][2] + pooled_sorted_data[i+1][2]
+            mean = mean / 2 + 1
+            pooled_sorted_data[i][2] = mean
+            pooled_sorted_data[i+1][2] = mean
+    rank_sum_1 = 0
+    rank_sum_2 = 0
+    for data in pooled_sorted_data:
+        if data[1] == 1:
+            rank_sum_1 += data[2]
+        else:
+            rank_sum_2 += data[2]
+    print('rank_sum_1 = ' + (str)(rank_sum_1))
+    print('rank_sum_2 = ' + (str)(rank_sum_2))
+    n_1 = len(data_set_1)
+    n_2 = len(data_set_2)
+    u_1 = n_1 * n_2 + (n_1*(n_1 + 1))/2 - rank_sum_1
+    u_2 = n_1 * n_2 + (n_2 * (n_2 + 1))/2 - rank_sum_2
+    print(min(u_1, u_2))
+    return min(u_1, u_2)
+
+
 #=================================== Miscellaneous Algorithms ================================================
 
 
@@ -737,4 +800,3 @@ def is_semiprime(n:int):
             return True
         return False
     return False
-
