@@ -142,6 +142,8 @@ def kruskal_wallis(groups):
 
     return h_stat
 
+import math
+
 ############################################################
 #                Paired Student t-test                     #
 ############################################################
@@ -195,14 +197,37 @@ def wilcoxon_rank_sum_test(data_set_1, data_set_2):
             rank_sum_1 += data[2]
         else:
             rank_sum_2 += data[2]
-    print('rank_sum_1 = ' + (str)(rank_sum_1))
-    print('rank_sum_2 = ' + (str)(rank_sum_2))
     n_1 = len(data_set_1)
     n_2 = len(data_set_2)
     u_1 = n_1 * n_2 + (n_1*(n_1 + 1))/2 - rank_sum_1
     u_2 = n_1 * n_2 + (n_2 * (n_2 + 1))/2 - rank_sum_2
-    print(min(u_1, u_2))
     return min(u_1, u_2)
+
+############################################################
+#              Friedman matched samples                    #
+############################################################
+def friedman_matched_samples(dataset):
+    rows = len(dataset)
+    cols = len(dataset[0])
+    dataset_key = [[0] * cols for i in range(rows)]
+    for row in dataset_key:
+        for i in range(cols):
+            row[i] = i + 1
+    for i in range(rows):
+        zipped_lists = zip(dataset[i], dataset_key[i])
+        sorted_pair = sorted(zipped_lists)
+        tuples = zip(*sorted_pair)
+        dataset[i], dataset_key[i] = [list(tuple) for tuple in tuples]
+    R = [0 for i in range(cols)]
+    for row in dataset_key:
+        for i in range(cols):
+            R[i] += row[i]
+    sum_temp = 0
+    for r in R:
+        sum_temp += r * r
+    q = (12 / (rows * cols * (cols + 1))) * sum_temp - 3 * rows * (cols + 1)
+    return q
+
 
 
 #=================================== Miscellaneous Algorithms ================================================

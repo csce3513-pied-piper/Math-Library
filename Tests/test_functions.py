@@ -42,6 +42,22 @@ def wilcoxon_test():
     data_set_2 = [3, 6, 4, 2, 1]
     functions.wilcoxon_rank_sum_test(data_set_1, data_set_2)
 
+#Friedman matched sample test
+def friedman_test():
+    dataset = [[21.1, 19.2, 18.4],
+               [24.1, 22.3, 21.2],
+               [14.1, 12.9, 12.9],
+               [15.4, 15.1, 14.9],
+               [15.4, 15.1, 14.9],
+               [16.2, 15.1, 15.1],
+               [7.4, 7.2, 6.8],
+               [7.5, 6.7, 6.1],
+               [14.2, 13.6, 13.1],
+               [21.3, 20.9, 20.4],
+               [9.5, 9.8, 9.3],
+               [11.9, 10.5, 10.1]]
+    print(functions.friedman_matched_samples(dataset))
+
 #Prime factorization test
 def prime_factor_test():
     x = random.randrange(0, 1000000)
