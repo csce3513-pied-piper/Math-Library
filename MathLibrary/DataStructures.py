@@ -1,8 +1,100 @@
+import math
+import mmh3
+from bitarray import bitarray
+from random import randint, seed
 import copy
 import hashlib
 import struct
-
 import numpy as np
+
+
+class BloomFilter(object):
+
+    def __init__(self, items_count, false_positive_probability):
+        self.false_positive = false_positive_probability
+        self.array_size = self.get_size(items_count, false_positive_probability)
+        self.hash_count = self.get_hash_count(self.array_size, items_count)
+        self.bit_array = bitarray(self.array_size)
+        self.bit_array.setall(0)
+
+    def add(self, item):
+        digests = []
+        for i in range(self.hash_count):
+            digest = mmh3.hash(item, i) % self.array_size
+            digests.append(digest)
+            self.bit_array[digest] = True
+
+        return item
+
+    def exists(self, item):
+        for i in range(self.hash_count):
+            digest = mmh3.hash(item, i) % self.array_size
+            if not self.bit_array[digest]:
+                return False
+        return True
+
+    @classmethod
+    def get_size(cls, n, p):
+        m = -(n * math.log(p)) / (math.log(2) ** 2)
+        return int(m)
+
+    @classmethod
+    def get_hash_count(cls, m, n):
+        k = (m / n) * math.log(2)
+        return int(k)
+
+
+class CountMinSketch(object):
+
+    def __init__(self, w, d):
+        self.hash_width = w
+        self.hash_functions_count = d
+        self.p = 2 ** 31 - 1  # magic number from the original paper
+        self.counts = [[0 for _ in range(w)] for _ in range(d)]
+        self.total = 0
+
+        self._init_hash_params()
+
+    def __setitem__(self, element, c):
+        self.total += c
+        for i in range(self.hash_functions_count):
+            h = self.hash(i, element)
+            self.counts[i][h] += c
+
+    update = __setitem__
+
+    def __getitem__(self, element):
+        estimates = [self.counts[i][self.hash(i, element)] for i in range(self.hash_functions_count)]
+        return min(estimates)
+
+    estimate = __getitem__
+
+    def _init_hash_params(self):
+        self.a_b = []
+        for i in range(self.hash_functions_count):
+            a = randint(1, self.p - 1)
+            b = randint(1, self.p - 1)
+            self.a_b.append((a, b))
+
+    def hash(self, hash_i, e):
+        """Apply the `i`th hash function to element `e`."""
+        e_int = hash(e)
+        a, b = self.a_b[hash_i]
+
+        return CountMinSketch.hash_cw(self.p, self.hash_width, a, b, e_int)
+
+    @staticmethod
+    def hash_cw(p, w, a, b, e):
+        """Auxillary hashing function for the CountMinSketch class.
+        We use this parameterized hash function to obtain our
+        pairwise-independent hash functions. `p` and `w` define the
+        sub-family, `a` and `b` define the members.
+        """
+        # Universal hash functions from: Carter & Wegman "Universal
+        # classes of hash functions" 1979
+        #
+        # a and b should be random integers in the range [1, p-1]
+        return ((a * e + b) % p) % w
 
 
 def sha1_hash32(data):
@@ -147,3 +239,82 @@ class MinHash(object):
             _m = m.copy()
             _m.update_batch(_b)
             yield _m
+
+class Node:
+    def __init__(self, height=0, elem=None):
+        self.elem = elem
+        self.next = [None] * height
+
+
+def random_height():
+    height = 1
+    while randint(1, 2) != 1:
+        height += 1
+    return height
+
+
+class SkipList:
+
+    def __init__(self):
+        self.head = Node()
+        self.len = 0
+        self.maxHeight = 0
+
+    def __len__(self):
+        return self.len
+
+    def find(self, elem, update=None):
+        if update is None:
+            self.update_list(elem)
+        elif len(update) > 0:
+            item = update[0].next[0]
+            if item is not None and item.elem == elem:
+                return item
+        return None
+
+    def contains(self, elem, update=None):
+        return self.find(elem, update) is not None
+
+    def update_list(self, elem):
+        update = [None] * self.maxHeight
+        x = self.head
+        for i in reversed(range(self.maxHeight)):
+            while x.next[i] is not None and x.next[i].elem < elem:
+                x = x.next[i]
+            update[i] = x
+        return update
+
+    def insert(self, elem):
+
+        _node = Node(random_height(), elem)
+
+        self.maxHeight = max(self.maxHeight, len(_node.next))
+        while len(self.head.next) < len(_node.next):
+            self.head.next.append(None)
+
+        update = self.update_list(elem)
+        if self.find(elem, update) is None:
+            for i in range(len(_node.next)):
+                _node.next[i] = update[i].next[i]
+                update[i].next[i] = _node
+            self.len += 1
+
+    def remove(self, elem):
+
+        update = self.update_list(elem)
+        x = self.find(elem, update)
+        if x is not None:
+            for i in reversed(range(len(x.next))):
+                update[i].next[i] = x.next[i]
+                if self.head.next[i] is None:
+                    self.maxHeight -= 1
+            self.len -= 1
+
+    def print_list(self):
+        for i in range(len(self.head.next) - 1, -1, -1):
+            x = self.head
+            while x.next[i] is not None:
+                print(x.next[i].elem)
+                x = x.next[i]
+            print('')
+
